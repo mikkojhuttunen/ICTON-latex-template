@@ -1,0 +1,298 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    File: ICTONmeetings.tex             %
+%    Date: 2020                          %
+%    inquiries: mikko.huttunen@tuni.fi   %
+%                                        %
+%    Home-made LaTeX template for ICTON  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{icton}[2020 LaTeX package for submission to ICTON conferences]% based on osameet3
+
+%% packages
+\usepackage{cite}
+\RequirePackage{geometry}
+\usepackage{color}
+\usepackage{graphicx}
+%% fonts
+\usepackage{mathptmx,courier,textcomp}
+\usepackage[scaled=.92]{helvet}
+
+\usepackage{gensymb}
+\usepackage{ragged2e}
+%% standard packages and arguments should be modified as needed
+\usepackage{amsmath,amssymb}
+\usepackage[pdftex,colorlinks=true,bookmarks=false,citecolor=black, allcolors=black]{hyperref} %pdflatex
+ 
+ 
+\geometry{letterpaper,a4paper,nohead,margin=1in} %% uses geometry.sty
+\parindent1em %% em tied to font
+\parskip0pc
+\linespread{1}
+\pagestyle{empty}
+\sloppy
+
+%%Title page elements
+\newcommand\MEETtitle[1]{\begin{center}
+\parbox[top][][c]{.95\textwidth}{\centering \noindent%
+   \LARGE \bf  #1 \rm } \end{center}  \rm\normalsize }
+
+\newcommand\MEETauthor[1]{\centering
+\parbox[top][][c]{.9\textwidth}{\centering \noindent%
+   \normalsize \bf  #1 \rm } \rm\normalsize \\ \vspace{3pt}}
+
+\newcommand\MEETaddress[1]{\centering
+\parbox[top][][c]{.9\textwidth}{\centering \noindent%
+   \normalsize \it  #1 \rm }  \rm\normalsize \\ \vspace{3pt}}   
+
+%\begin{center}
+\newcommand\MEETcontacts[1]{\centering
+\parbox[top][][c]{.9\textwidth}{\centering \noindent%
+   \normalsize \it #1 \rm } \rm\normalsize \\ \vspace{3pt}}
+ 
+\newcommand\homepage[1]{\vskip-1pt \parskip0pc\hskip2.25pc \footnotesize %% CHANGE 8-3-99
+   \parbox{.8\textwidth}{\begin{center}\it \textcolor{blue}{\underline{#1}} \rm \end{center} } \normalsize\vskip-.2cm}
+
+\newcommand\ocis[1]{\vskip-2.75pc \begin{center}\parbox{.8\textwidth}{\footnotesize\bf OCIS codes: \ \rm #1 \hfill} \end{center}\vskip3pt}%
+
+\let\title\MEETtitle
+\let\author\MEETauthor
+\let\affil\MEETaddress
+\let\address\MEETaddress
+\let\email\MEETemail
+\let\contacts\MEETcontacts
+\let\pacs\ocis
+
+\renewenvironment{abstract}%%
+{\noindent \begin{minipage}
+{1\textwidth}{\bf ABSTRACT\\[-9pt] } 
+ \end{minipage}}
+  
+\newcommand\keywords[1]{\noindent \textbf{Keywords}: ~ #1 }
+
+
+\newenvironment{abstract*}%%
+{\vskip1pc\noindent\begin{center} \begin{minipage}{.8\textwidth} {\bf Abstract: \ } }
+{ \\  \end{minipage}\end{center}\normalsize\vskip-1.75pc}%
+
+%% Various customizations
+
+\renewcommand\maketitle{\vskip0pt} %%deactivates \maketitle in LaTeX
+\def\affiliation{\address}
+\def\onlinecite{\citeonline}
+%Fig. and Table Labels
+
+\renewcommand\figurename{\textit{Figure}}%Fig.
+\def\fps@table{h}%\def\fps@table{!htbp}
+\renewcommand\tablename{\textit{Table}}
+
+%% New caption style using caption-package:
+\usepackage[margin=20pt,font=it,labelfont=it,
+               labelsep=period]{caption}
+               
+%%References
+\renewcommand\refname{\normalsize REFERENCES \rm}
+\setlength\bibindent{.3in}
+\renewenvironment{thebibliography}[1]
+     {\section*{\refname
+        \@mkboth{\MakeUppercase\refname}{\MakeUppercase\refname}}%
+      \list{[\@arabic\c@enumiv ]}%[1]  % e.g. \@arabic\c@enumiv .
+           {\settowidth\labelwidth{.25in}%
+            \leftmargin\labelwidth
+  \setlength{\parsep}{0pc}
+  \setlength{\labelsep}{1em}% sep between [1] ___  F. Author
+  \setlength{\itemsep}{0.05pc}%{-0.06in}
+  \setlength{\listparindent}{0in}
+  \setlength{\itemindent}{0in}
+  \setlength{\leftmargin}{.16in}% 0.3in
+  \setlength{\rightmargin}{0in}
+            \advance\leftmargin\labelsep
+            \@openbib@code
+            \usecounter{enumiv}%
+            \let\p@enumiv\@empty
+            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+            % \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+      \sloppy
+      \clubpenalty4000
+      \@clubpenalty \clubpenalty
+      \widowpenalty4000%
+      \sfcode`\.\@m \normalsize}
+     {\def\@noitemerr
+       {\@latex@warning{Empty `thebibliography' environment}}%
+      \endlist \vskip.2in}
+\let\@openbib@code\@empty
+\newcommand\OSAJNLReferences{\thebibliography{}}
+\newcommand\OSAJNLReflinks{\thebibliography{}}
+\newcommand\References{\thebibliography{}}
+\newcommand\references{\thebibliography{}}
+\let\endOSAJNLReferences\endthebibliography
+\let\endOSAJNLlinks\endthebibliography
+\let\endReferences\endthebibliography
+
+%%Section parameters
+\renewcommand\@seccntformat[1]{\csname the#1\endcsname. }
+\renewcommand\thesubsection{\thesection.\arabic{subsection}}
+\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
+
+\renewcommand\section{\@startsection {section}{1}{0pt}%
+    {-2.5ex plus -1ex minus -.2ex}%
+    {0.3ex plus .2ex}%
+    {\normalsize\bfseries\uppercase}}
+\renewcommand\subsection{\@startsection{subsection}{2}{0pt}%
+                                     {-2.25ex plus -1ex minus -.2ex}%
+                                     {1ex plus .2ex}%
+                                     {\normalsize\itshape}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{0pt}%
+                                     {-2.25ex plus -1ex minus -.2ex}%
+                                     {1ex plus .2ex}%
+                                     {\small\upshape}}
+
+\frenchspacing
+
+\hyphenation {ac-cord-ing
+           allow
+           back-scat-ter
+           back-scat-te-ring
+           back-scat-tered
+           scat-te-ring
+           Based based
+           cases
+           cen-tered
+           changed
+           co-incide
+           con-cerning
+           con-ven-tional
+           de-creased
+           de-po-lar-iz-ation
+           de-tector de-tectors
+           de-vi-ation
+           dis-cussion
+           dis-tribu-tion
+           dis-tribu-tions
+           dis-trib-ute
+           dis-trib-uted
+           Ehhalt
+           extinc-tion
+           found
+           Geest-hacht
+           ground
+           Hink-ley
+           il-lus-trated
+           il-lus-trate
+           Intro-ducing
+           Klap-heck
+           lati-tude
+           measure-ment
+           measure-ments
+           meas-ured
+           measuring
+           mixing
+           north-east
+           orig-inated
+           op-er-ating
+           out-flow
+           pres-ence
+           primary
+           rather
+           rela-tive
+           sig-nal
+           sig-nals
+           solid
+           tem-pera-ture
+           Tem-pera-ture
+           trans-ported
+           tropo-pause
+           Tropo-pause
+           tropo-sphere
+           Tropo-sphere
+           tube
+           tubes
+           Values
+           varies
+           Weather}
+
+\def\opex{ Opt.\ Express }
+\def\ao{ Appl.\  Opt.\ }
+\def\ap{ Appl.\  Phys.\ }
+\def\apa{ Appl.\  Phys.\ A }
+\def\apb{ Appl.\  Phys.\ B }
+\def\apl{ Appl.\ Phys.\ Lett.\ }
+\def\apj{ Astrophys.\ J.\ }
+\def\bell{ Bell Syst.\ Tech.\ J.\ }
+\def\jqe{ IEEE J.\ Quantum Electron.\ }
+\def\assp{ IEEE Trans.\ Acoust.\ Speech Signal Process.\ }
+\def\aprop{ IEEE Trans.\ Antennas Propag.\ }
+\def\mtt{ IEEE Trans.\ Microwave Theory Tech.\ }
+\def\iovs{ Invest.\ Ophthalmol.\ Visual\ Sci.\ }
+\def\jcp{ J.\ Chem.\ Phys.\ }
+\def\jmo{ J.\ Mod.\ Opt.\ }
+\def\jon{J.\ Opt.\ Netw.\ }
+\def\josa{ J.\ Opt.\ Soc.\ Am.\ }
+\def\josaa{ J.\ Opt.\ Soc.\ Am.\ A }
+\def\josab{ J.\ Opt.\ Soc.\ Am.\ B }
+\def\jpp{ J.\ Phys.\ (Paris) }
+\def\nat{ Nature (London) }
+\def\oc{ Opt.\ Commun.\ }
+\def\ol{ Opt.\ Lett.\ }
+\def\pl{ Phys.\ Lett.\ }
+\def\pra{ Phys.\ Rev.\ A }
+\def\prb{ Phys.\ Rev.\ B }
+\def\prc{ Phys.\ Rev.\ C }
+\def\prd{ Phys.\ Rev.\ D }
+\def\pre{ Phys.\ Rev.\ E }
+\def\prl{ Phys.\ Rev.\ Lett.\ }
+\def\rmp{ Rev.\ Mod.\ Phys.\ }
+\def\pspie{ Proc.\ SPIE\ }
+\def\sjqe{ Sov.\ J.\ Quantum Electron.\ }
+\def\vr{ Vision Res.\ }
+\def\cleo{ {\it Conference on Lasers and Electro-Optics }}
+\def\assl{ {\it Advanced Solid State Lasers }}
+\def\tops{ Trends in Optics and Photonics }
+
+
+%% custom MATH:
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\rmi}{\mathrm{i}}
+\newcommand{\rme}{\mathrm{e}}
+\newcommand{\rmd}{\,\mathrm{d}}
+% \DeclareMathOperator{\rmd}{d}%gives wrong spacing after \rmd...
+\newcommand{\rmb}{\mathrm{b}}
+\newcommand{\rmf}{\mathrm{f}}
+\newcommand{\dg}{\ensuremath{^\circ}}
+\newcommand{\uvec}[1]{\vec{\hat{#1}}}
+
+% change line spacing before and after equations to 3pt
+\usepackage{etoolbox}
+\AtBeginEnvironment{equation}{%
+    \setlength{\belowdisplayskip}{3pt}%
+    \setlength{\belowdisplayshortskip}{3pt}%
+    \setlength{\abovedisplayskip}{3pt}%
+    \setlength{\abovedisplayshortskip}{3pt}%
+}
+    
+% For an upright "mu" for micron units:
+\newsavebox{\foobox}
+\newcommand{\slantbox}[2][0]{\mbox{%
+        \sbox{\foobox}{#2}%
+        \hskip\wd\foobox
+        \pdfsave
+        \pdfsetmatrix{1 0 #1 1}%
+        \llap{\usebox{\foobox}}%
+        \pdfrestore
+}}
+\newcommand\unslant[2][-.15]{\slantbox[#1]{$#2$}}
+
+
+\usepackage{float} %to allow the "H" position in figure locations
+
+\newcommand{\micron}{$\unslant\mu$m}
+\newcommand{\microsecond}{$\unslant\mu$s}
+
+\AtBeginDocument{%
+    \setlength{\belowdisplayskip}{3pt}
+    \setlength{\belowdisplayshortskip}{3pt}
+    \setlength{\abovedisplayskip}{3pt}
+    \setlength{\abovedisplayshortskip}{3pt}
+}
+
+%% end icton.sty
