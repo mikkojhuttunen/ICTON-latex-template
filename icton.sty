@@ -10,7 +10,7 @@
 \ProvidesPackage{icton}[2020 LaTeX package for submission to ICTON conferences]% based on osameet3
 
 %% packages
-\usepackage{cite}
+% \usepackage{cite}
 \RequirePackage{geometry}
 \usepackage{color}
 \usepackage{graphicx}
@@ -82,6 +82,14 @@
 \def\onlinecite{\citeonline}
 %Fig. and Table Labels
 
+%% automated affiliation numberings using \affN:
+\newcounter{afflnum}
+\setcounter{afflnum}{1}
+\newcommand{\affN}{
+    $^{\arabic{afflnum}}$% 
+    \refstepcounter{afflnum}%
+}
+
 \renewcommand\figurename{\textit{Figure}}%Fig.
 \def\fps@table{h}%\def\fps@table{!htbp}
 \renewcommand\tablename{\textit{Table}}
@@ -128,6 +136,80 @@
 \let\endOSAJNLReferences\endthebibliography
 \let\endOSAJNLlinks\endthebibliography
 \let\endReferences\endthebibliography
+
+%%% Formatting of references %%%
+
+%% PUBLICATION LISTS
+\usepackage[style=numeric-comp,firstinits=true,eprint=false,url=false,doi=false,isbn=false]{biblatex} %
+%maxcitenames=2,style=apa,firstinits=true,giveninits=true
+
+% useful commands found from the biblatex manual, ctrl+f: \bibpages ... 
+\DeclareFieldFormat[article]{volume}{vol. #1\addcomma\addspace}
+\renewbibmacro{in:}{}           % remove In.
+\renewcommand*{\bibpagespunct}{} % space before the pages, \addspace
+
+%% here, is the page number doesn't start with a number, biblatex seems to omit p./pp.
+% I'll assume that this is as it should be
+% \DefineBibliographyStrings{english}{%
+%     page  = {p.}, % for single page number
+%     pages = {pp.} % for multiple page numbers
+% }
+% \DeclareFieldFormat{pages}{p. #1} % remove pp.
+
+%% remove issue numbers:
+\renewbibmacro*{volume+number+eid}{%
+  \printfield{volume}%
+  \setunit*{\addcomma}%
+  \setunit{\addcomma}%
+  \printfield{eid}}
+
+% control comma before the author prior to et al.
+\renewcommand{\andothersdelim}{\addspace}%\addcomma
+
+% https://tex.stackexchange.com/questions/528987/biblatex-punctuation-after-author-for-article
+\DeclareFieldFormat[article]{title}{``#1\addcomma"\addspace}
+
+%% Issue/date macros removed after journal number
+% https://tex.stackexchange.com/questions/6743/biblatex-changing-the-order-of-entries 
+\renewbibmacro*{journal+issuetitle}{%
+  \usebibmacro{journal}%
+  \setunit*{\addcomma\addspace}%
+  \iffieldundef{series}
+    {}
+    {\newunit
+     \printfield{series}%
+    }%
+  \usebibmacro{volume+number+eid}%
+  \newunit}
+
+\DeclareBibliographyDriver{article}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/translator+others}%
+  \setunit{\labelnamepunct}\newblock
+  \setunit{\addcomma\addspace}% NEW
+  \usebibmacro{title}%
+  \nopunct% remove punctuation after title
+  \usebibmacro{journal+issuetitle}%
+  \newunit
+  \usebibmacro{byeditor+others}%
+  \newunit
+  \usebibmacro{note+pages}%
+  \setunit{\addcomma\addspace}% NEW
+  \usebibmacro{issue+date}% NEW
+  \setunit{\addcolon\space}% NEW
+  \usebibmacro{pageref}%
+  \usebibmacro{finentry}}
+  
+%https://tex.stackexchange.com/questions/12254/biblatex-how-to-remove-the-parentheses-around-the-year-in-authoryear-style
+%% But here \usebibmacro{issue+date} is used instead:
+\usepackage{xpatch}
+\xpatchbibmacro{issue+date}{%
+  \printtext[parens]%
+}{%
+  \setunit{\addcomma\space}%
+  \printtext%
+}{}{}  
 
 %%Section parameters
 \renewcommand\@seccntformat[1]{\csname the#1\endcsname. }
