@@ -98,50 +98,13 @@
 \usepackage[margin=20pt,font=it,labelfont=it,
                labelsep=period]{caption}
                
-%%References
-\renewcommand\refname{\normalsize REFERENCES \rm}
-\setlength\bibindent{.3in}
-\renewenvironment{thebibliography}[1]
-     {\section*{\refname
-        \@mkboth{\MakeUppercase\refname}{\MakeUppercase\refname}}%
-      \list{[\@arabic\c@enumiv ]}%[1]  % e.g. \@arabic\c@enumiv .
-           {\settowidth\labelwidth{.25in}%
-            \leftmargin\labelwidth
-  \setlength{\parsep}{0pc}
-  \setlength{\labelsep}{1em}% sep between [1] ___  F. Author
-  \setlength{\itemsep}{0.05pc}%{-0.06in}
-  \setlength{\listparindent}{0in}
-  \setlength{\itemindent}{0in}
-  \setlength{\leftmargin}{.16in}% 0.3in
-  \setlength{\rightmargin}{0in}
-            \advance\leftmargin\labelsep
-            \@openbib@code
-            \usecounter{enumiv}%
-            \let\p@enumiv\@empty
-            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
-            % \renewcommand\theenumiv{\@arabic\c@enumiv}}%
-      \sloppy
-      \clubpenalty4000
-      \@clubpenalty \clubpenalty
-      \widowpenalty4000%
-      \sfcode`\.\@m \normalsize}
-     {\def\@noitemerr
-       {\@latex@warning{Empty `thebibliography' environment}}%
-      \endlist \vskip.2in}
-\let\@openbib@code\@empty
-\newcommand\OSAJNLReferences{\thebibliography{}}
-\newcommand\OSAJNLReflinks{\thebibliography{}}
-\newcommand\References{\thebibliography{}}
-\newcommand\references{\thebibliography{}}
-\let\endOSAJNLReferences\endthebibliography
-\let\endOSAJNLlinks\endthebibliography
-\let\endReferences\endthebibliography
-
 %%% Formatting of references %%%
 
 %% PUBLICATION LISTS
-\usepackage[style=numeric-comp,firstinits=true,eprint=false,url=false,doi=false,isbn=false]{biblatex} %
+\usepackage[style=numeric-comp,firstinits=true,eprint=false,url=false,doi=false,isbn=false,sorting=none,labelnumber=true]{biblatex} %
 %maxcitenames=2,style=apa,firstinits=true,giveninits=true
+
+%% https://tex.stackexchange.com/questions/12806/guidelines-for-customizing-biblatex-styles
 
 % useful commands found from the biblatex manual, ctrl+f: \bibpages ... 
 \DeclareFieldFormat[article]{volume}{vol. #1\addcomma\addspace}
@@ -210,6 +173,83 @@
   \setunit{\addcomma\space}%
   \printtext%
 }{}{}  
+
+
+% This could also work for formatting the refs.
+\AtEveryBibitem{% Clean up the bibtex rather than editing it
+%  \clearlist{address}
+%  \clearfield{date}
+%  \clearfield{eprint}
+ \clearfield{isbn}
+ \clearfield{issn}
+%  \clearlist{location}
+ \clearfield{month}
+%  \clearfield{series}
+ 
+%  \ifentrytype{book}{}{% Remove publisher and editor except for books
+%   \clearlist{publisher}
+%   \clearname{editor}
+%  }
+}
+
+%% Change [1] labels into 1. etc.:
+\defbibenvironment{bibliography}
+{\list
+{\printfield[labelnumberwidth]{labelnumber}}
+{\setlength{\labelwidth}{\labelnumberwidth}%
+\setlength{\leftmargin}{\labelwidth}%
+\setlength{\labelsep}{\biblabelsep}%
+\addtolength{\leftmargin}{\labelsep}%
+\setlength{\itemsep}{\bibitemsep}%
+\setlength{\parsep}{\bibparsep}}%
+\renewcommand*{\makelabel}[1]{\hss##1}}
+{\endlist}
+{\item}
+
+\DeclareFieldFormat{labelnumberwidth}{#1\adddot}
+   
+   
+%%References
+\renewcommand\refname{\normalsize REFERENCES \rm}
+\setlength\bibindent{.3in}
+\renewenvironment{thebibliography}[1]
+     {\section*{\refname
+        \@mkboth{\MakeUppercase\refname}{\MakeUppercase\refname}}%
+      \list{[\@arabic\c@enumiv ]}%[1]  % e.g. \@arabic\c@enumiv .
+           {\settowidth\labelwidth{.25in}%
+            \leftmargin\labelwidth
+  \setlength{\parsep}{0pc}
+  \setlength{\labelsep}{1em}% sep between [1] ___  F. Author
+  \setlength{\itemsep}{0.05pc}%{-0.06in}
+  \setlength{\listparindent}{0in}
+  \setlength{\itemindent}{0in}
+  \setlength{\leftmargin}{.16in}% 0.3in
+  \setlength{\rightmargin}{0in}
+            \advance\leftmargin\labelsep
+            \@openbib@code
+            \usecounter{enumiv}%
+            \let\p@enumiv\@empty
+            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+            % \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+      \sloppy
+      \clubpenalty4000
+      \@clubpenalty \clubpenalty
+      \widowpenalty4000%
+      \sfcode`\.\@m \normalsize}
+     {\def\@noitemerr
+       {\@latex@warning{Empty `thebibliography' environment}}%
+      \endlist \vskip.2in}
+\let\@openbib@code\@empty
+\newcommand\OSAJNLReferences{\thebibliography{}}
+\newcommand\OSAJNLReflinks{\thebibliography{}}
+\newcommand\References{\thebibliography{}}
+\newcommand\references{\thebibliography{}}
+\let\endOSAJNLReferences\endthebibliography
+\let\endOSAJNLlinks\endthebibliography
+\let\endReferences\endthebibliography
+
+% \renewcommand\bibname{Reference}
+% \printbibliography[title={Reference}]
 
 %%Section parameters
 \renewcommand\@seccntformat[1]{\csname the#1\endcsname. }

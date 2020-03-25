@@ -11,6 +11,8 @@
 \usepackage{icton} %% 
 \usepackage{tabularx}
 
+\addbibresource{Example.bib} % example .bib file
+
 \begin{document}
 
 \title{Instructions for Preparing Camera-Ready Manuscripts for
@@ -31,6 +33,8 @@ the Proceedings of the International Conference on Transparent Optical Networks}
 \keywords{open source.}
 
 \section{INTRODUCTION}
+
+\nocite{*} %print every Example.bib item to show how references look
 
 \section{Theory}
 %
@@ -56,8 +60,13 @@ In conclusion, we got fed up of using the word template and made this for all th
 \section*{Acknowledgements}
 We acknowledge the Flagship of Photonics Research and Innovation (PREIN) funded by the Academy of Finland (Grant No. 320165).
 
-\begin{thebibliography}{99} %% use BibTeX or add references manually
+%% references:
+% use BibLaTeX,
+\printbibliography[title={References}]
 
-\end{thebibliography}
+%% BibTeX or add references manually
+% \begin{thebibliography}{99} 
+
+% \end{thebibliography}
 
 \end{document}
